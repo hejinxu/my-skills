@@ -1,0 +1,7 @@
+{
+  "jira": {
+    "base_url": "https://your-jira-server.com/",
+    "pat": "your_personal_access_token",
+    "default_project": "YOUR_PROJECT_KEY"
+  }
+}

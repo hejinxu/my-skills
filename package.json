@@ -1,0 +1,12 @@
+{
+  "name": "gs-skills",
+  "version": "1.0.0",
+  "description": "Custom skills for Claude Code and OpenCode",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "install:claude": "pwsh -File install.ps1 -Target claude",
+    "install:opencode": "pwsh -File install.ps1 -Target opencode",
+    "install:all": "pwsh -File install.ps1 -Target all"
+  }
+}
