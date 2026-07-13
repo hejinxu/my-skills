@@ -162,7 +162,7 @@ install_claude_skills() {
     mkdir -p "$CLAUDE_SKILLS_DIR"
   fi
   
-  for skill in jira-issues jira-projects jira-sprint code-security-check; do
+  for skill in jira-issues jira-projects jira-sprint code-security-check git-diff git-revert git-status git-log git-blame git-stash git-commit; do
     install_skill "$skill" "$CLAUDE_SKILLS_DIR"
   done
 }
@@ -174,7 +174,7 @@ install_opencode_skills() {
     mkdir -p "$OPENCODE_SKILLS_DIR"
   fi
   
-  for skill in jira-issues jira-projects jira-sprint code-security-check; do
+  for skill in jira-issues jira-projects jira-sprint code-security-check git-diff git-revert git-status git-log git-blame git-stash git-commit; do
     install_skill "$skill" "$OPENCODE_SKILLS_DIR"
   done
 }

@@ -2,7 +2,7 @@
 
 ## What This Repo Is
 
-Custom skills collection for Claude Code and OpenCode, providing Jira integration (issues, projects, sprints). Pure Node.js with zero npm dependencies.
+Custom skills collection for Claude Code and OpenCode, providing Jira integration (issues, projects, sprints) and Git operations (diff, revert, status, log, blame, stash, commit).
 
 ## Quick Commands
 
@@ -44,6 +44,22 @@ config.example.json    # Example config file
 install.ps1            # Windows installer
 uninstall.ps1          # Windows uninstaller
 ```
+
+## Available Skills
+
+### Jira Skills
+- **jira-issues** — Query, create, update, and manage Jira issues
+- **jira-projects** — List and view Jira projects
+- **jira-sprint** — Manage sprints and boards
+
+### Git Skills
+- **git-diff** — View uncommitted changes in the working directory
+- **git-restore** — Discard uncommitted changes (with confirmation)
+- **git-status** — Check the current state of a Git repository
+- **git-log** — View commit history
+- **git-blame** — View line-by-line modification history
+- **git-stash** — Temporarily store uncommitted changes
+- **git-commit** — Commit staged changes to the local repository
 
 ## Key Gotchas
 
@@ -89,8 +105,19 @@ The entry point (`lib/jira.js:3`) sets `NODE_TLS_REJECT_UNAUTHORIZED = '0'` — 
 
 1. Create `skills/<name>/SKILL.md` with frontmatter (`name`, `description`, `trigger`)
 2. Create `commands/<name>.md` with frontmatter (`description`, `agent`)
-3. Add implementation in `lib/skills/<name>/`
+3. Add implementation in `lib/skills/<name>/` (for Node.js-based skills)
 4. Update `install.ps1` and `install.sh` to include the new skill in the install loops
+
+### Skill Types
+
+**Node.js-based skills** (like Jira):
+- Implement logic in `lib/skills/<name>/`
+- Command template calls Node.js script via `node "$env:USERPROFILE\.config\gs-skills\lib\jira.js" $ARGUMENTS`
+
+**AI-direct skills** (like Git):
+- No Node.js implementation needed
+- Command template instructs AI to execute shell commands directly
+- Skills provide detailed step-by-step instructions for the AI to follow
 
 ## Testing Rules
 
