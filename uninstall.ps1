@@ -53,6 +53,12 @@ function Write-Warning {
 function Get-UninstallPreview {
     $preview = @()
     
+    # lib 目录是应用代码，始终移除
+    $libDir = Join-Path $GlobalConfigDir "lib"
+    if (Test-Path $libDir) {
+        $preview += "  [库文件] $libDir"
+    }
+    
     if ($Target -eq "claude" -or $Target -eq "all") {
         foreach ($skill in $Skills) {
             $skillDir = Join-Path $ClaudeSkillsDir $skill
@@ -145,6 +151,16 @@ function Uninstall-OpenCodeCommands {
     }
 }
 
+function Uninstall-LibFiles {
+    Write-Step "卸载库文件"
+    
+    $libDir = Join-Path $GlobalConfigDir "lib"
+    if (Test-Path $libDir) {
+        Remove-Item -Path $libDir -Recurse -Force
+        Write-Success "已移除: $libDir"
+    }
+}
+
 function Uninstall-GlobalConfig {
     if ($KeepConfig) {
         Write-Warning "保留配置文件（已指定 -KeepConfig 参数）"
@@ -168,6 +184,13 @@ function Test-Uninstallation {
     Write-Step "验证卸载结果"
     
     $allClean = $true
+    
+    # 检查库文件
+    $libDir = Join-Path $GlobalConfigDir "lib"
+    if (Test-Path $libDir) {
+        Write-Warning "库文件目录仍存在: $libDir"
+        $allClean = $false
+    }
     
     # 检查 Claude skills
     foreach ($skill in $Skills) {
@@ -219,6 +242,9 @@ if (-not $confirmed) {
 }
 
 # 第二步：执行卸载
+# lib 目录是应用代码，始终移除
+Uninstall-LibFiles
+
 switch ($Target) {
     "claude" {
         Uninstall-ClaudeSkills
